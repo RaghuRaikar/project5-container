@@ -127,9 +127,10 @@ int container_exec(void* arg) {
   free(current_dir);
   // the double pointer allows us to pass in first element and also list of args
   // into execvp
-  execvp(container_args_copy[0], container_args_copy);
-  // if there is an error we print this message to the terminal
-  err(1, "Failed to execute execvp");
+  if (execvp(container_args_copy[0], container_args_copy) < 0) {
+    // if there is an error we print this message to the terminal
+    err(1, "Failed to execute execvp");
+  }
 
   return 0;
 }
